@@ -4,7 +4,7 @@
         ""
     ],
     "companyName": "rax96max@gmail.com",
-    "longName": "Saphire",
+    "longName": "Sapphire",
     "projectType": "native",
     "resources": {
         "media": [
@@ -27,7 +27,7 @@
         ]
     },
     "sdkVersion": "3",
-    "shortName": "Saphire",
+    "shortName": "Sapphire",
     "targetPlatforms": [
         "aplite",
         "basalt"

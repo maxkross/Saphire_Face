@@ -3,7 +3,7 @@
 *	Custom watch face by Max Kross
 * 
 */
-#include "saphire.h"
+#include "sapphire.h"
 
 #include "pebble.h"
 
@@ -171,4 +171,3 @@ int main() {
   app_event_loop();
   deinit();
 }
-
