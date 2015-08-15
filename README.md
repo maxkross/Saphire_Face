@@ -1,2 +1,2 @@
-# Saphire_Face
+# Sapphire_Face
 A professional watch face for Pebble and Pebble Time
