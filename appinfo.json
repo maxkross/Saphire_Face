@@ -1,0 +1,40 @@
+{
+    "appKeys": {},
+    "capabilities": [
+        ""
+    ],
+    "companyName": "rax96max@gmail.com",
+    "longName": "Saphire",
+    "projectType": "native",
+    "resources": {
+        "media": [
+            {
+                "file": "images/Small Face BW.png",
+                "menuIcon": true,
+                "name": "menu_icon",
+                "type": "png"
+            },
+            {
+                "file": "images/Final Face.png",
+                "name": "watch_face",
+                "type": "png"
+            },
+            {
+                "file": "fonts/Franklin Gothic Book.ttf",
+                "name": "Franklin12",
+                "type": "font"
+            }
+        ]
+    },
+    "sdkVersion": "3",
+    "shortName": "Saphire",
+    "targetPlatforms": [
+        "aplite",
+        "basalt"
+    ],
+    "uuid": "5ee915ed-cec4-47e5-a310-69cb2b5475fe",
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": true
+    }
+}
