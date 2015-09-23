@@ -22,7 +22,7 @@ static void hands_update_proc(Layer *layer, GContext *ctx) {
   time_t now = time(NULL);
   struct tm *t = localtime(&now);
 
-  // minute/hour hand
+  // Watch hand coloring
 	#ifdef PBL_PLATFORM_APLITE
   	graphics_context_set_fill_color(ctx, GColorBlack);
   	graphics_context_set_stroke_color(ctx, GColorBlack);
@@ -31,18 +31,19 @@ static void hands_update_proc(Layer *layer, GContext *ctx) {
   	graphics_context_set_stroke_color(ctx, GColorCobaltBlue);
 	#endif
 		
-
-		gpath_rotate_to(s_second_arrow, TRIG_MAX_ANGLE * t->tm_sec / 60);
+	// Rotates second hand to proper place
+	gpath_rotate_to(s_second_arrow, TRIG_MAX_ANGLE * t->tm_sec / 60);
 	gpath_draw_outline(ctx, s_second_arrow);
   gpath_draw_filled(ctx, s_second_arrow);
 	
 	
-
+	// Rotates hour hand to proper place
   gpath_rotate_to(s_hour_arrow, (TRIG_MAX_ANGLE * (((t->tm_hour % 12) * 6) + (t->tm_min / 10))) / (12 * 6));
   gpath_draw_filled(ctx, s_hour_arrow);
   gpath_draw_outline(ctx, s_hour_arrow);
 
-		gpath_rotate_to(s_minute_arrow, TRIG_MAX_ANGLE * t->tm_min / 60);
+	//Rotates minute hand to proper place
+	gpath_rotate_to(s_minute_arrow, TRIG_MAX_ANGLE * t->tm_min / 60);
 	gpath_draw_outline(ctx, s_minute_arrow);
   gpath_draw_filled(ctx, s_minute_arrow);
 
@@ -63,6 +64,7 @@ static void hands_update_proc(Layer *layer, GContext *ctx) {
 		graphics_fill_circle(ctx, GPoint(72,84), 1 );
 }
 
+// Updates the date
 static void date_update_proc(Layer *layer, GContext *ctx) {
   time_t now = time(NULL);
   struct tm *t = localtime(&now);
@@ -71,23 +73,28 @@ static void date_update_proc(Layer *layer, GContext *ctx) {
   text_layer_set_text(s_num_label, s_num_buffer);
 }
 
+
 static void handle_second_tick(struct tm *tick_time, TimeUnits units_changed) {
   layer_mark_dirty(window_get_root_layer(window));
 }
 
+//Loads watchface
 static void window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
 
+	//Sets background layer
 	background_image = gbitmap_create_with_resource(RESOURCE_ID_watch_face);
 	watchface_layer = bitmap_layer_create(GRect(0,0,144,168));
 	bitmap_layer_set_bitmap(watchface_layer, background_image);
   layer_add_child(window_layer, bitmap_layer_get_layer(watchface_layer));
 
+	//Sets date layer
   s_date_layer = layer_create(bounds);
   layer_set_update_proc(s_date_layer, date_update_proc);
   layer_add_child(bitmap_layer_get_layer(watchface_layer), s_date_layer);
 
+	//Sets date number
   s_num_label = text_layer_create(GRect(124, 77, 14, 14));
   text_layer_set_text(s_num_label, s_num_buffer);
   text_layer_set_background_color(s_num_label, GColorWhite);
@@ -95,14 +102,16 @@ static void window_load(Window *window) {
 	custom_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_Franklin12));
   text_layer_set_font(s_num_label, custom_font);
 	text_layer_set_text_alignment(s_num_label, GTextAlignmentCenter);
-
   layer_add_child(s_date_layer, text_layer_get_layer(s_num_label));
 
+	//Sets watch hands layer
   s_hands_layer = layer_create(bounds);
   layer_set_update_proc(s_hands_layer, hands_update_proc);
   layer_add_child(bitmap_layer_get_layer(watchface_layer), s_hands_layer);
 	
 }
+
+//Destroys layers in windows
 
 static void window_unload(Window *window) {
 	gbitmap_destroy(background_image);
@@ -114,6 +123,7 @@ static void window_unload(Window *window) {
   layer_destroy(s_hands_layer);
 }
 
+//Initializes watchface window
 static void init() {
   window = window_create();
 		
@@ -153,6 +163,7 @@ static void init() {
 
 }
 
+//Destroys watchface window
 static void deinit() {
   gpath_destroy(s_minute_arrow);
   gpath_destroy(s_hour_arrow);
@@ -166,6 +177,7 @@ static void deinit() {
   window_destroy(window);
 }
 
+//Starts the watch, runs the clock, untilt he watch is closed.
 int main() {
   init();
   app_event_loop();
